@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio Institucional - SIGA ERP Premium</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="/style.css">
+  
+  <style>
+    /* Gradient Background for Dashboard */
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="menu-container"></div>
+
+  <div class="container mt-5 pt-4 animate-fade-in-up">
+    
+    <!-- Welcome Section -->
+    <div class="row mb-4 align-items-center">
+      <div class="col-md-8">
+        <h2 class="mb-1">Panel de Control Principal</h2>
+        <p class="text-muted mb-0">Resumen general y accesos directos de tu institución educativa.</p>
+      </div>
+      <div class="col-md-4 text-md-right mt-3 mt-md-0">
+        <span class="badge badge-primary px-3 py-2" style="background: var(--accent-light); color: var(--accent-hover); font-size: 0.9rem;">
+          <i class="fa-solid fa-calendar mr-1"></i> Período 2026-2027
+        </span>
+      </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-5">
+      <div class="col-md-4 mb-4 mb-md-0 delay-100 animate-fade-in-up">
+        <div class="glass-card stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="stat-content">
+            <p>Total Alumnos</p>
+            <h3 id="stat-alumnos">--</h3>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 mb-4 mb-md-0 delay-200 animate-fade-in-up">
+        <div class="glass-card stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <div class="stat-content">
+            <p>Docentes Activos</p>
+            <h3 id="stat-docentes">--</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 delay-300 animate-fade-in-up">
+        <div class="glass-card stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div class="stat-content">
+            <p>Cursos y Materias</p>
+            <h3 id="stat-cursos">--</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-5">
+      <div class="col-12 mb-3">
+        <h4 class="mb-0" style="color: var(--primary-light);">Accesos Rápidos</h4>
+        <hr class="mt-2 mb-4" style="border-color: rgba(0,0,0,0.05);">
+      </div>
+      
+      <div class="col-md-3 col-sm-6 mb-3 delay-100 animate-fade-in-up">
+        <a href="/student.html" class="text-decoration-none">
+          <div class="glass-card p-4 text-center" style="transition: all 0.2s;">
+            <div class="mb-3">
+              <i class="fa-solid fa-user-plus text-primary" style="font-size: 2.5rem; color: var(--accent-color) !important;"></i>
+            </div>
+            <h6 class="font-weight-bold text-dark">Gestionar Alumnos</h6>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-3 delay-200 animate-fade-in-up">
+        <a href="/teacher.html" class="text-decoration-none">
+          <div class="glass-card p-4 text-center">
+            <div class="mb-3">
+              <i class="fa-solid fa-address-card" style="font-size: 2.5rem; color: var(--success-color) !important;"></i>
+            </div>
+            <h6 class="font-weight-bold text-dark">Gestionar Docentes</h6>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-3 delay-300 animate-fade-in-up">
+        <a href="/course.html" class="text-decoration-none">
+          <div class="glass-card p-4 text-center">
+            <div class="mb-3">
+              <i class="fa-solid fa-laptop-file" style="font-size: 2.5rem; color: var(--warning-color) !important;"></i>
+            </div>
+            <h6 class="font-weight-bold text-dark">Materias y Cursos</h6>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-3 delay-300 animate-fade-in-up">
+        <a href="#" class="text-decoration-none" onclick="Swal.fire('Próximamente', 'Módulo de reportes en construcción', 'info')">
+          <div class="glass-card p-4 text-center">
+            <div class="mb-3">
+              <i class="fa-solid fa-chart-line" style="font-size: 2.5rem; color: var(--danger-color) !important;"></i>
+            </div>
+            <h6 class="font-weight-bold text-dark">Reportes</h6>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initMenu } from '/menu.js';
+    import { fetchAPI } from '/api-client.js';
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      initMenu();
+
+      // Fetch dashboard statistics dynamically
+      try {
+        // Here we ideally fetch an aggregate endpoint, but we can simulate it with individual endpoints
+        const [studentsRes, teachersRes, coursesRes] = await Promise.all([
+          fetchAPI('/alumno/listado').catch(() => ({ json: () => [] })),
+          fetchAPI('/docente/listado').catch(() => ({ json: () => [] })),
+          fetchAPI('/curso/listado').catch(() => ({ json: () => [] }))
+        ]);
+
+        const students = await studentsRes.json();
+        const teachers = await teachersRes.json();
+        const courses = await coursesRes.json();
+
+        // Animate counting
+        animateValue("stat-alumnos", 0, Array.isArray(students) ? students.length : 0, 1000);
+        animateValue("stat-docentes", 0, Array.isArray(teachers) ? teachers.length : 0, 1000);
+        animateValue("stat-cursos", 0, Array.isArray(courses) ? courses.length : 0, 1000);
+
+      } catch (e) {
+        console.error("Error fetching stats", e);
+        document.getElementById('stat-alumnos').textContent = "0";
+        document.getElementById('stat-docentes').textContent = "0";
+        document.getElementById('stat-cursos').textContent = "0";
+      }
+    });
+
+    function animateValue(id, start, end, duration) {
+        if (start === end) {
+            document.getElementById(id).textContent = end;
+            return;
+        }
+        let range = end - start;
+        let current = start;
+        let increment = end > start ? 1 : -1;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        let obj = document.getElementById(id);
+        let timer = setInterval(function() {
+            current += increment;
+            obj.textContent = current;
+            if (current == end) {
+                clearInterval(timer);
+            }
+        }, stepTime);
+    }
+  </script>
+</body>
+</html>

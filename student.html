@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directorio de Alumnos - SIGA ERP</title>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
+    .table-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.6); border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; }
+    .table-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .table-header h5 { margin: 0; font-family: 'Outfit', sans-serif; font-weight: 700; }
+    #datatableexample thead th { background: #f1f5f9; color: var(--text-muted); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; }
+    #datatableexample tbody tr { transition: background 0.15s; }
+    #datatableexample tbody tr:hover { background: rgba(14,165,233,0.04); }
+    .dataTables_wrapper { padding: 16px; }
+  </style>
+</head>
+<body>
+  
+  <div class="page-container">
+    <div id="menu-container"></div>
+
+    <div class="main-content-area">
+      <div class="container-fluid mt-4 animate-fade-in-up" style="padding-bottom: 40px;">
+        
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2 class="mb-1">Directorio de Alumnos</h2>
+            <p class="text-muted mb-0">Gestión integral de los estudiantes matriculados.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="/home.html" class="btn-premium-outline mr-2"><i class="fa-solid fa-house mr-1"></i> Inicio</a>
+            <a href="/student-form.html" class="btn-premium" id="btnAddStudent"><i class="fa-solid fa-user-plus mr-1"></i> Nuevo Alumno</a>
+          </div>
+        </div>
+    
+        <!-- Table Card -->
+        <div class="table-card">
+          <div class="table-header">
+            <h5><i class="fa-solid fa-user-graduate mr-2"></i> Listado de Alumnos</h5>
+            <span class="badge" style="background:rgba(255,255,255,0.2); color:white; padding:6px 12px; border-radius:20px; font-size:0.8rem;">Período Activo</span>
+          </div>
+          <div class="table-responsive">
+            <table id="datatableexample" class="table table-hover w-100 mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cédula</th>
+                  <th>Nombre y Apellido</th>
+                  <th>Año</th>
+                  <th>Sección</th>
+                  <th>Nivel</th>
+                  <th>Turno</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+  
+  <!-- Integración Global de SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- Lógica Vanilla de esta vista y el Sidebar -->
+  <script type="module">
+    import { initMenu } from '/menu.js';
+    import '/student-list.js';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      initMenu();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Estudiante - SIGA ERP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
+
+    /* Tab Navigation Premium */
+    .tab-nav-premium { display: flex; gap: 4px; background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); border-radius: 12px; padding: 6px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.6); }
+    .tab-nav-premium .tab-btn { flex: 1; padding: 10px 8px; border: none; background: transparent; border-radius: 8px; font-weight: 600; font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .tab-nav-premium .tab-btn:hover { background: rgba(14,165,233,0.1); color: var(--accent-color); }
+    .tab-nav-premium .tab-btn.active { background: linear-gradient(135deg, var(--accent-color), var(--accent-hover)); color: white; box-shadow: 0 4px 12px rgba(14,165,233,0.35); }
+    .tab-btn .tab-number { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; }
+    .tab-btn.active .tab-number { background: rgba(255,255,255,0.3); }
+
+    /* Tab Panels */
+    .tab-panel { display: none; animation: fadeInUp 0.4s ease; }
+    .tab-panel.active { display: block; }
+
+    /* Form Sections */
+    .form-section-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.6); border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .form-section-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--primary-color); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid var(--accent-light); }
+    .form-section-title i { color: var(--accent-color); font-size: 1.1rem; }
+
+    /* Custom Inputs */
+    .form-control-premium { border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; transition: all 0.2s; background: white; }
+    .form-control-premium:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(14,165,233,0.15); outline: none; }
+    .form-label-premium { font-weight: 600; font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+    .required-star { color: var(--danger-color); }
+
+    /* Step Indicator Bottom */
+    .step-actions { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.07); padding: 16px 24px; position: sticky; bottom: 60px; z-index: 100; border-radius: 0 0 14px 14px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+
+    /* Progress Bar */
+    .tab-progress { height: 4px; background: #e2e8f0; border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+    .tab-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--success-color)); border-radius: 2px; transition: width 0.4s ease; }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    <div id="menu-container"></div>
+
+    <div class="container mt-4 mb-5 animate-fade-in-up" style="padding-bottom: 80px; max-width: 1000px;">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="mb-1" id="page-title">Registro de Alumno</h2>
+          <p class="text-muted mb-0" id="page-subtitle">Complete todos los datos del estudiante y su representante.</p>
+        </div>
+        <a href="/student.html" class="btn-premium-outline">
+          <i class="fa-solid fa-arrow-left mr-2"></i>Volver a la Lista
+        </a>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="tab-progress mb-2">
+        <div class="tab-progress-fill" id="progressFill" style="width: 33%;"></div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-nav-premium">
+        <button class="tab-btn active" onclick="switchTab(0)" id="tab-btn-0">
+          <span class="tab-number">1</span>
+          <span class="d-none d-md-inline">Datos del Alumno</span>
+          <span class="d-inline d-md-none">Alumno</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab(1)" id="tab-btn-1">
+          <span class="tab-number">2</span>
+          <span class="d-none d-md-inline">Datos del Representante</span>
+          <span class="d-inline d-md-none">Repr.</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab(2)" id="tab-btn-2">
+          <span class="tab-number">3</span>
+          <span class="d-none d-md-inline">Datos Académicos</span>
+          <span class="d-inline d-md-none">Académico</span>
+        </button>
+      </div>
+
+      <form id="formAlumno" novalidate>
+
+        <!-- ===================== TAB 1: ALUMNO ===================== -->
+        <div class="tab-panel active" id="tab-panel-0">
+
+          <!-- Identificación -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-id-card"></i> Identificación
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Tipo Doc. <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="tipoDocumento" id="tipoDocumento" required>
+                  <option value="">Seleccione...</option>
+                  <option value="V">V - Venezolano</option>
+                  <option value="E">E - Extranjero</option>
+                  <option value="P">P - Pasaporte</option>
+                </select>
+              </div>
+              <div class="form-group col-md-8">
+                <label class="form-label-premium">Número de Cédula <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="numeroDocumento" id="numeroDocumento" placeholder="Ej: 28456789" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nombres -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-user"></i> Datos Personales
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Primer Nombre <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="primerNombre" placeholder="Ej: CARLOS" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Segundo Nombre</label>
+                <input type="text" class="form-control form-control-premium" name="segundoNombre" placeholder="Ej: ANDRÉS">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Primer Apellido <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="primerApellido" placeholder="Ej: PÉREZ" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Segundo Apellido</label>
+                <input type="text" class="form-control form-control-premium" name="segundoApellido" placeholder="Ej: RINCÓN">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Sexo <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="sexo" required>
+                  <option value="">Seleccione...</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Fecha de Nacimiento <span class="required-star">*</span></label>
+                <input type="date" class="form-control form-control-premium" name="fechaNacimiento" id="fechaNacimiento" required>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Edad</label>
+                <input type="text" class="form-control form-control-premium" name="edad" id="edad" placeholder="Se calcula auto." readonly style="background:#f8fafc">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Lugar de Nacimiento <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="lugarDeNacimiento" placeholder="Ej: CARACAS, VENEZUELA" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Nacionalidad <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="nacionalidad" placeholder="Ej: VENEZOLANA" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contacto -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-phone"></i> Datos de Contacto
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="form-label-premium">Dirección <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="direccion" placeholder="Urb., Calle, Casa..." required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="form-label-premium">Operadora Tel. <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="codigoOperadoraTelefono" required>
+                  <option value="">Selec...</option>
+                  <option value="0412">0412</option>
+                  <option value="0414">0414</option>
+                  <option value="0416">0416</option>
+                  <option value="0424">0424</option>
+                  <option value="0426">0426</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Teléfono <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="telefono" placeholder="Ej: 1234567" required>
+              </div>
+              <div class="form-group col-md-5">
+                <label class="form-label-premium">Email <span class="required-star">*</span></label>
+                <input type="email" class="form-control form-control-premium" name="email" placeholder="correo@ejemplo.com" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ingreso -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-calendar-check"></i> Datos de Ingreso
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Fecha de Ingreso <span class="required-star">*</span></label>
+                <input type="date" class="form-control form-control-premium" name="fechaIngreso" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Condición <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="condicion" required>
+                  <option value="">Seleccione...</option>
+                  <option value="NUEVO">NUEVO</option>
+                  <option value="REPITIENTE">REPITIENTE</option>
+                  <option value="TRASLADO">TRASLADO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <div class="text-muted small"><i class="fa-solid fa-info-circle mr-1"></i> Paso 1 de 3</div>
+            <button type="button" class="btn-premium" onclick="switchTab(1)">Siguiente: Representante <i class="fa-solid fa-arrow-right ml-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ===================== TAB 2: REPRESENTANTE ===================== -->
+        <div class="tab-panel" id="tab-panel-1">
+
+          <!-- Búsqueda rápida -->
+          <div class="form-section-card" style="border: 2px dashed var(--accent-color); background: var(--accent-light);">
+            <div class="form-section-title" style="border-bottom-color: var(--accent-color);">
+              <i class="fa-solid fa-magnifying-glass"></i> Buscar Representante Existente
+            </div>
+            <div class="form-row align-items-end">
+              <div class="form-group col-md-3 mb-0">
+                <label class="form-label-premium">Tipo Doc.</label>
+                <select class="form-control form-control-premium" id="buscarTipoRepr">
+                  <option value="V">V</option>
+                  <option value="E">E</option>
+                  <option value="P">P</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6 mb-0">
+                <label class="form-label-premium">Cédula del Representante</label>
+                <input type="text" class="form-control form-control-premium" id="buscarCedulaRepr" placeholder="Ingrese la cédula...">
+              </div>
+              <div class="form-group col-md-3 mb-0">
+                <button type="button" class="btn-premium w-100" id="btnBuscarRepr">
+                  <i class="fa-solid fa-search mr-1"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Datos Personales Representante -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-user-tie"></i> Datos Personales del Representante
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Tipo Doc. <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="representanteTipoDocumento" required>
+                  <option value="">Seleccione...</option>
+                  <option value="V">V - Venezolano</option>
+                  <option value="E">E - Extranjero</option>
+                  <option value="P">P - Pasaporte</option>
+                </select>
+              </div>
+              <div class="form-group col-md-8">
+                <label class="form-label-premium">Número de Cédula <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteNumeroDocumento" id="rNumDoc" placeholder="Nro. de documento" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Primer Nombre <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representantePrimerNombre" id="rPNombre" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Segundo Nombre</label>
+                <input type="text" class="form-control form-control-premium" name="representanteSegundoNombre" id="rSNombre">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Primer Apellido <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representantePrimerApellido" id="rPApellido" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Segundo Apellido</label>
+                <input type="text" class="form-control form-control-premium" name="representanteSegundoApellido" id="rSApellido">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="form-label-premium">Sexo <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="representanteSexo" id="rSexo" required>
+                  <option value="">---</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Fecha Nacimiento <span class="required-star">*</span></label>
+                <input type="date" class="form-control form-control-premium" name="representanteFechaNacimieno" id="rFechaNac" required>
+              </div>
+              <div class="form-group col-md-2">
+                <label class="form-label-premium">Edad</label>
+                <input type="text" class="form-control form-control-premium" name="representanteEdad" id="rEdad" readonly style="background:#f8fafc">
+              </div>
+              <div class="form-group col-md-3">
+                <label class="form-label-premium">Est. Civil <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="representanteEstadoCivil" required>
+                  <option value="">Sel...</option>
+                  <option value="SOLTERO">SOLTERO(A)</option>
+                  <option value="CASADO">CASADO(A)</option>
+                  <option value="DIVORCIADO">DIVORCIADO(A)</option>
+                  <option value="VIUDO">VIUDO(A)</option>
+                  <option value="UNION LIBRE">UNIÓN LIBRE</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Lugar de Nacimiento <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteLugarDeNacimiento" id="rLugarNac" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Nacionalidad <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteNacionalidad" id="rNacionalidad" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="form-label-premium">Dirección <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteDireccion" id="rDireccion" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="form-label-premium">Operadora <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="representanteCodigoOperadoraTelefono" required>
+                  <option value="">...</option>
+                  <option value="0412">0412</option>
+                  <option value="0414">0414</option>
+                  <option value="0416">0416</option>
+                  <option value="0424">0424</option>
+                  <option value="0426">0426</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Teléfono <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteTelefono" id="rTelefono" required>
+              </div>
+              <div class="form-group col-md-5">
+                <label class="form-label-premium">Email</label>
+                <input type="email" class="form-control form-control-premium" name="representanteEmail" id="rEmail">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Parentesco <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="parentesco" required>
+                  <option value="">Seleccione...</option>
+                  <option value="PADRE">PADRE</option>
+                  <option value="MADRE">MADRE</option>
+                  <option value="TUTOR">TUTOR LEGAL</option>
+                  <option value="ABUELO">ABUELO(A)</option>
+                  <option value="TIO">TÍO(A)</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Profesión <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteProfesion" id="rProfesion" required>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Ocupación <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteOcupacion" id="rOcupacion" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Datos Laborales -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-building"></i> Datos Laborales
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Empresa donde trabaja <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteEmpresaDondeTrabaja" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Ingreso Mensual Aprox. <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteIngresoMensualAproximado" placeholder="Ej: 500" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="form-label-premium">Dirección Laboral <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteDireccionLaboral" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="form-label-premium">Operadora Empresa</label>
+                <select class="form-control form-control-premium" name="representanteCodigoOperadoraTelefonoEmpresa">
+                  <option value="0212">0212</option>
+                  <option value="0412">0412</option>
+                  <option value="0414">0414</option>
+                  <option value="0424">0424</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Tel. Empresa <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="representanteTelefonoEmpresa" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-premium-outline" onclick="switchTab(0)"><i class="fa-solid fa-arrow-left mr-1"></i> Anterior</button>
+            <div class="text-muted small">Paso 2 de 3</div>
+            <button type="button" class="btn-premium" onclick="switchTab(2)">Siguiente: Académico <i class="fa-solid fa-arrow-right ml-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ===================== TAB 3: ACADÉMICO ===================== -->
+        <div class="tab-panel" id="tab-panel-2">
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-graduation-cap"></i> Datos Académicos
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Año que cursa <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="cursoAnnio" required>
+                  <option value="">Seleccione...</option>
+                  <option value="1">1° Año</option>
+                  <option value="2">2° Año</option>
+                  <option value="3">3° Año</option>
+                  <option value="4">4° Año</option>
+                  <option value="5">5° Año</option>
+                  <option value="6">6° Grado</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Sección <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="cursoSeccion" required>
+                  <option value="">Seleccione...</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
+                <label class="form-label-premium">Turno <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="cursoTurno" required>
+                  <option value="">Seleccione...</option>
+                  <option value="MAÑANA">MAÑANA</option>
+                  <option value="TARDE">TARDE</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Nivel <span class="required-star">*</span></label>
+                <select class="form-control form-control-premium" name="cursoNivel" required>
+                  <option value="">Seleccione...</option>
+                  <option value="PRIMARIA">PRIMARIA</option>
+                  <option value="SECUNDARIA">SECUNDARIA / MEDIA GENERAL</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="form-label-premium">Período Académico <span class="required-star">*</span></label>
+                <input type="text" class="form-control form-control-premium" name="cursoPeriodoAcademico" placeholder="Ej: 2026-2027" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen de Guardado -->
+          <div class="form-section-card" style="border: 2px solid #10b981; background: rgba(16,185,129,0.05);">
+            <div class="form-section-title" style="color: #059669; border-bottom-color: #10b981;">
+              <i class="fa-solid fa-circle-check"></i> Confirmación de Registro
+            </div>
+            <p class="text-muted mb-0">Al hacer clic en <strong>"Guardar Alumno"</strong>, todos los datos ingresados serán registrados permanentemente en la base de datos de la institución.</p>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-premium-outline" onclick="switchTab(1)"><i class="fa-solid fa-arrow-left mr-1"></i> Anterior</button>
+            <div class="text-muted small">Paso 3 de 3</div>
+            <button type="submit" class="btn-premium" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 6px 20px rgba(16,185,129,0.4);" id="btnGuardar">
+              <i class="fa-solid fa-floppy-disk mr-2"></i> Guardar Alumno
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module">
+    import { initMenu } from '/menu.js';
+    import { fetchAPI } from '/api-client.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initMenu();
+
+      // Check if editing (id in URL)
+      const params = new URLSearchParams(window.location.search);
+      const editId = params.get('id');
+      if (editId) {
+        document.getElementById('page-title').textContent = 'Editar Alumno';
+        document.getElementById('page-subtitle').textContent = 'Modifique los datos del estudiante.';
+        loadStudentData(editId);
+      }
+    });
+
+    // Tab switching
+    window.switchTab = function(index) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-panel-' + index).classList.add('active');
+      document.getElementById('tab-btn-' + index).classList.add('active');
+      const pct = [33, 66, 100][index];
+      document.getElementById('progressFill').style.width = pct + '%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Auto-calc age from birthdate
+    document.getElementById('fechaNacimiento').addEventListener('change', function() {
+      document.getElementById('edad').value = calcAge(this.value);
+    });
+    document.getElementById('rFechaNac')?.addEventListener('change', function() {
+      document.getElementById('rEdad').value = calcAge(this.value);
+    });
+
+    function calcAge(dateStr) {
+      if (!dateStr) return '';
+      const today = new Date();
+      const birth = new Date(dateStr);
+      let age = today.getFullYear() - birth.getFullYear();
+      const m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+      return String(age);
+    }
+
+    // Buscar representante
+    document.getElementById('btnBuscarRepr').addEventListener('click', async () => {
+      const cedula = document.getElementById('buscarCedulaRepr').value.trim();
+      const tipo = document.getElementById('buscarTipoRepr').value;
+      if (!cedula) {
+        Swal.fire('Atención', 'Ingrese una cédula para buscar.', 'warning');
+        return;
+      }
+      try {
+        Swal.fire({ title: 'Buscando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        // El endpoint es POST con JSON body { tipoDocumento, numeroDocumento }
+        const res = await fetchAPI('/representante/consultarporcedula', {
+          method: 'POST',
+          body: JSON.stringify({ tipoDocumento: tipo, numeroDocumento: cedula })
+        });
+
+        const wrapper = await res.json();
+        // El backend retorna Optional<Representante> — Spring serializa como { "present": true, "value": {...} }
+        // o directamente el objeto dependiendo de la versión
+        const repr = wrapper.value || wrapper;
+        Swal.close();
+        if (repr && repr.primerNombre) {
+          fillRepresentante(repr);
+          Swal.fire('¡Encontrado!', `Representante ${repr.primerNombre} ${repr.primerApellido} cargado.`, 'success');
+        } else {
+          Swal.fire('No encontrado', 'El representante no está registrado. Complete los datos manualmente.', 'info');
+        }
+      } catch(e) {
+        Swal.close();
+        Swal.fire('No encontrado', 'El representante no está registrado. Complete los datos manualmente.', 'info');
+      }
+    });
+
+    function fillRepresentante(r) {
+      // Helper: fill by ID
+      const setId = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || '';
+      };
+      // Helper: fill by name attribute
+      const setName = (name, val) => {
+        const el = document.querySelector(`[name="${name}"]`);
+        if (el) el.value = val || '';
+      };
+
+      // Datos de identificación
+      setName('representanteTipoDocumento', r.tipoDocumento);
+      setId('rNumDoc', r.numeroDocumento);
+
+      // Datos personales
+      setId('rPNombre',   r.primerNombre);
+      setId('rSNombre',   r.segundoNombre);
+      setId('rPApellido', r.primerApellido);
+      setId('rSApellido', r.segundoApellido);
+      setId('rSexo',      r.sexo);
+      setName('representanteEstadoCivil', r.estadoCivil);
+
+      // Fechas y edad
+      if (r.fechaNacimieno) {
+        const d = r.fechaNacimieno.split('T')[0];
+        setId('rFechaNac', d);
+        setId('rEdad', calcAge(d));
+      }
+
+      // Lugar, nacionalidad, dirección personal
+      setId('rLugarNac',    r.lugarDeNacimiento);
+      setId('rNacionalidad', r.nacionalidad);
+      setId('rDireccion',   r.direccion);
+
+      // Contacto personal
+      setName('representanteCodigoOperadoraTelefono', r.codigoOperadoraTelefono);
+      setId('rTelefono', r.telefono);
+      setId('rEmail',    r.email);
+
+      // Datos laborales
+      setName('representanteEmpresaDondeTrabaja',          r.empresaDondeTrabaja);
+      setName('representanteIngresoMensualAproximado',     r.ingresoMensualAproximado);
+      setName('representanteDireccionLaboral',             r.direccionLaboral);
+      setName('representanteCodigoOperadoraTelefonoEmpresa', r.codigoOperadoraTelefonoEmpresa);
+      setName('representanteTelefonoEmpresa',              r.telefonoEmpresa);
+
+      // Profesión y ocupación
+      setId('rProfesion', r.profesion);
+      setId('rOcupacion', r.ocupacion);
+    }
+
+    // Load student data for editing
+    async function loadStudentData(id) {
+      try {
+        Swal.fire({ title: 'Cargando datos...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        const res = await fetchAPI(`/alumno/consultarporid/${id}`);
+        const data = await res.json();
+        const alumno = data.value || data;
+        Swal.close();
+        // Fill form fields
+        const form = document.getElementById('formAlumno');
+        for (const [key, val] of Object.entries(alumno)) {
+          const el = form.querySelector(`[name="${key}"]`);
+          if (el && val !== null && val !== undefined) {
+            if (el.type === 'date' && val) {
+              el.value = new Date(val).toISOString().split('T')[0];
+            } else {
+              el.value = val;
+            }
+          }
+        }
+        if (alumno.fechaNacimiento) document.getElementById('edad').value = calcAge(new Date(alumno.fechaNacimiento).toISOString().split('T')[0]);
+      } catch(e) {
+        Swal.fire('Error', 'No se pudieron cargar los datos del alumno.', 'error');
+      }
+    }
+
+    // Form submit
+    document.getElementById('formAlumno').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const rawData = Object.fromEntries(formData.entries());
+
+      // Convert empty strings to null — @NotEmpty in Spring fails on ""
+      // but passes on null (for optional fields without @NotNull)
+      const data = {};
+      for (const [key, val] of Object.entries(rawData)) {
+        data[key] = (val === '' || val === undefined) ? null : val;
+      }
+
+      // Always set representanteActivo = true
+      data.representanteActivo = true;
+
+      const params = new URLSearchParams(window.location.search);
+      const editId = params.get('id');
+      const endpoint = editId ? `/alumno/modificar/${editId}` : '/alumno/crear';
+      const method = editId ? 'PUT' : 'POST';
+
+      try {
+        Swal.fire({ title: 'Guardando...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        const response = await fetchAPI(endpoint, { method, body: JSON.stringify(data) });
+        Swal.fire({
+          icon: 'success',
+          title: editId ? '¡Actualizado!' : '¡Registrado!',
+          text: editId ? 'El alumno ha sido actualizado correctamente.' : 'El alumno ha sido registrado con éxito.',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => { window.location.href = '/student.html'; });
+      } catch (error) {
+        if (!error.message.includes('401') && !error.message.includes('403')) {
+          Swal.fire({ icon: 'error', title: 'Error al Guardar', text: 'Verifica que todos los campos estén completos y vuelve a intentarlo.' });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

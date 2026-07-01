@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siga App Vanilla</title>
+  <!-- Bootstrap (como en el original) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- === PANTALLA DIVIDIDA LOGIN === -->
+  <div class="container-fluid p-0 m-0 overflow-hidden">
+    <div class="row m-0" style="min-height: 100vh;">
+      
+      <!-- Lado Izquierdo: Collage Académico -->
+      <div class="col-lg-7 d-none d-lg-block p-0 position-relative" style="background: url('/images/collage.png') center/cover no-repeat; box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);">
+        <!-- Capa oscura sutil para dar contraste -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(30, 60, 114, 0.6) 0%, rgba(42, 82, 152, 0.3) 100%);"></div>
+        
+        <!-- Texto motivacional sobre el collage -->
+        <div style="position: absolute; bottom: 8%; left: 8%; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); z-index: 2; max-width: 80%;">
+          <h1 class="display-4 font-weight-bold mb-3" style="font-family: 'Outfit', sans-serif;">Gestión Académica de Excelencia</h1>
+          <p class="lead" style="font-size: 1.3rem; opacity: 0.9;">Uniendo tecnología y educación para potenciar el futuro de nuestros estudiantes y docentes.</p>
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Formulario Login -->
+      <div class="col-lg-5 d-flex align-items-center justify-content-center bg-white position-relative" style="box-shadow: -5px 0 25px rgba(0,0,0,0.05); z-index: 5;">
+        <div class="w-100 p-5" style="max-width: 480px;">
+          
+          <div class="text-center mb-5">
+            <h2 class="font-weight-bold" style="color: #1871af; font-size: 2.8rem; letter-spacing: 1px;">SIGA</h2>
+            <p class="text-muted mt-2">Bienvenido de vuelta. Inicia sesión en tu cuenta.</p>
+          </div>
+          
+          <form id="loginForm">
+            <div class="form-group text-left mb-4">
+              <label class="font-weight-bold text-secondary mb-2" style="font-size: 0.9rem;">USUARIO</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-color: #e0e6ed; color: #a0aabf;"><i class="fa-solid fa-user"></i></span>
+                </div>
+                <input type="text" id="username" class="form-control border-left-0" style="padding: 12px; background-color: #f8f9fa; border-color: #e0e6ed;" placeholder="Ej. estudiante o profesor" required>
+              </div>
+            </div>
+            
+            <div class="form-group text-left mb-5">
+              <label class="font-weight-bold text-secondary mb-2" style="font-size: 0.9rem;">CONTRASEÑA</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-color: #e0e6ed; color: #a0aabf;"><i class="fa-solid fa-lock"></i></span>
+                </div>
+                <input type="password" id="password" class="form-control border-left-0" style="padding: 12px; background-color: #f8f9fa; border-color: #e0e6ed;" placeholder="••••••••" required>
+              </div>
+            </div>
+
+            <div class="form-group text-left mb-5">
+              <label class="font-weight-bold text-secondary mb-2" style="font-size: 0.9rem;">COLEGIO</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0" style="border-color: #e0e6ed; color: #a0aabf;"><i class="fa-solid fa-building"></i></span>
+                </div>
+                <select id="tenantSelect" class="form-control border-left-0" style="padding-left: 12px; height: 50px; background-color: #f8f9fa; border-color: #e0e6ed;" required>
+                  <option value="siga_jrpocaterra">Colegio U.E.P. J.R. Pocaterra</option>
+                  <option value="siga_plaza">Colegio Plaza</option>
+                </select>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block text-white rounded-pill shadow-sm" style="background: linear-gradient(45deg, #1871af, #3bb3e3); border: none; padding: 14px; font-weight: 600; font-size: 1.1rem; transition: transform 0.2s;">
+              Ingresar al Sistema <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+          </form>
+          
+          <div class="text-center mt-5">
+            <a href="#" class="text-muted small text-decoration-none border-bottom border-secondary pb-1">¿Olvidaste tu contraseña?</a>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Integración Global de SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/main.js"></script>
+  <script type="module" src="/login.js"></script>
+</body>
+</html>
