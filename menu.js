@@ -14,7 +14,7 @@ export function initMenu() {
   }
 
   // Only show full nav if not on the login page (index.html)
-  const isHome = window.location.pathname.includes('home.html') || window.location.pathname.includes('student') || window.location.pathname.includes('teacher') || window.location.pathname.includes('course');
+  const isHome = window.location.pathname.includes('home.html') || window.location.pathname.includes('student') || window.location.pathname.includes('teacher') || window.location.pathname.includes('course') || window.location.pathname.includes('change-password');
 
   const headerHTML = `
     <!-- Sticky Glassmorphism Navbar -->
@@ -82,7 +82,7 @@ export function initMenu() {
               </a>
               <div class="dropdown-menu animate-fade-in-up mt-2 dropdown-menu-right" aria-labelledby="securityDropdown">
                 <a class="dropdown-item" href="#"><i class="fa-solid fa-users-gear mr-2 text-primary"></i> Usuarios</a>
-                <a class="dropdown-item" href="#"><i class="fa-solid fa-key mr-2 text-primary"></i> Cambiar clave</a>
+                <a class="dropdown-item" href="/change-password.html"><i class="fa-solid fa-key mr-2 text-primary"></i> Cambiar clave</a>
               </div>
             </li>
 

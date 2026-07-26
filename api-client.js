@@ -52,7 +52,9 @@ export async function fetchAPI(endpoint, options = {}) {
         }
 
         if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
+            const error = new Error(`Error HTTP: ${response.status}`);
+            error.response = response;
+            throw error;
         }
 
         return response;
